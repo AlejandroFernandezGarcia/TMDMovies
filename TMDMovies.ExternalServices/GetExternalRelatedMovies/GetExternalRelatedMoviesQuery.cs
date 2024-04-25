@@ -8,5 +8,11 @@ namespace TMDMovies.ExternalServices.GetExternalRelatedMovies
 {
     public class GetExternalRelatedMoviesQuery
     {
+        public GetExternalRelatedMoviesQuery(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
     }
 }

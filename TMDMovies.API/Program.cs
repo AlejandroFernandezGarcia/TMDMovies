@@ -14,6 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Configuration
+builder.Services.AddOptions();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 //DI
 builder.Services.AddScoped<IService<GetMoviesByNameQuery, GetMoviesByNameResult>, GetMoviesByNameService>();
 builder.Services.AddScoped<IService<GetExternalMoviesByNameQuery, GetExternalMoviesByNameResult>, GetExternalMoviesByNameService>();

@@ -25,10 +25,10 @@ namespace TMDMovies.Services.GetMovies
         public GetMoviesByNameResult Execute(GetMoviesByNameQuery query)
         {
             GetExternalMoviesByNameResult movieResult = _getExternalMovieService.Execute(_mapper.Map<GetExternalMoviesByNameQuery>(query));
-            //GetExternalRelatedMoviesResult relatedMovieResult = _getExternalRelatedMovieService.Execute(new GetExternalRelatedMoviesQuery());
+            GetExternalRelatedMoviesResult relatedMovieResult = _getExternalRelatedMovieService.Execute(new GetExternalRelatedMoviesQuery(movieResult.Id));
 
             GetMoviesByNameResult movie = _mapper.Map<GetMoviesByNameResult>(movieResult);
-            //movie.RelatedMovies = relatedMovieResult.relatedMovies.Select(x=>_mapper.Map<string>(x)).ToList();
+            movie.RelatedMovies = relatedMovieResult.relatedMovies.Select(x => $"{x.Title} ({x.ReleaseYear})").ToList();
 
             return movie;
         }

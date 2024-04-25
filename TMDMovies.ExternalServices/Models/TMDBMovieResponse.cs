@@ -4,6 +4,9 @@ namespace TMDMovies.ExternalServices.Models
 {
     public class TMDBMovieResponse
     {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -18,7 +21,5 @@ namespace TMDMovies.ExternalServices.Models
 
         [JsonProperty("overview")]
         public string Synopsis { get; set; }
-
-        //id": 80500,
     }
 }

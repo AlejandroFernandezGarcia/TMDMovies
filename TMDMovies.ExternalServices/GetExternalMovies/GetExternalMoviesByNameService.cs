@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -21,11 +22,13 @@ namespace TMDMovies.ExternalServices.GetExternalMovies
     {
         private IHttpClientHelper _httpClientHelper;
         private IMapper _mapper;
+        private IOptions<AppSettings> _options;
 
-        public GetExternalMoviesByNameService(IHttpClientHelper httpClientHelper, IMapper mapper)
+        public GetExternalMoviesByNameService(IHttpClientHelper httpClientHelper, IMapper mapper, IOptions<AppSettings> options)
         {
             _httpClientHelper = httpClientHelper;
             _mapper = mapper;
+            _options = options;
         }
 
         public GetExternalMoviesByNameResult Execute(GetExternalMoviesByNameQuery query)
@@ -35,9 +38,9 @@ namespace TMDMovies.ExternalServices.GetExternalMovies
             {
                 { "query", query.Name}
             };
-            string tokenJwt = "";
-
-            var response = _httpClientHelper.Get(url, queryParams, tokenJwt);
+            string tokenJwt = _options.Value.TMDBJwtToken; 
+                
+                var response = _httpClientHelper.Get(url, queryParams, tokenJwt);
 
             if (!String.IsNullOrEmpty(response))
             {

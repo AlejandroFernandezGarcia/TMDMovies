@@ -22,10 +22,9 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.AddScoped<IService<GetMoviesByNameQuery, GetMoviesByNameResult>, GetMoviesByNameService>();
 builder.Services.AddScoped<IService<GetExternalMoviesByNameQuery, GetExternalMoviesByNameResult>, GetExternalMoviesByNameService>();
 builder.Services.AddScoped<IService<GetExternalRelatedMoviesQuery, GetExternalRelatedMoviesResult>, GetExternalRelatedMoviesService>();
-builder.Services.AddSingleton<IHttpClientHelper, HttpClientHelper>();   
+builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();   
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-//builder.Services.AddSingleton(HttpHelp)
 
 var app = builder.Build();
 

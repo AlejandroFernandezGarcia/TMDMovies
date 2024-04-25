@@ -38,17 +38,17 @@ namespace TMDMovies.ExternalServices.GetExternalMovies
             {
                 { "query", query.Name}
             };
-            string tokenJwt = _options.Value.TMDBJwtToken; 
-                
-                var response = _httpClientHelper.Get(url, queryParams, tokenJwt);
+            string tokenJwt = _options.Value.TMDBJwtToken;
 
-            if (!String.IsNullOrEmpty(response))
+            var response = _httpClientHelper.Get(url, tokenJwt, queryParams);
+
+            var parsedObject = JObject.Parse(response);
+
+            if (((int)parsedObject["total_results"]) > 0)
             {
-                var parsedObject = JObject.Parse(response);
-                TMDBMovieResponse firstMovie = JsonConvert.DeserializeObject<TMDBMovieResponse>(parsedObject["results"][0].ToString());
+                TMDBMovieResponse firstMovie = JsonConvert.DeserializeObject<TMDBMovieResponse>(parsedObject["results"].Take(1).ToString());
 
                 return _mapper.Map<GetExternalMoviesByNameResult>(firstMovie);
-
             }
 
             return new GetExternalMoviesByNameResult();

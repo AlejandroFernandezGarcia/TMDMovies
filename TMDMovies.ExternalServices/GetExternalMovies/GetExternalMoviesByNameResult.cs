@@ -9,7 +9,7 @@ namespace TMDMovies.ExternalServices.GetExternalMovies
 {
     public class GetExternalMoviesByNameResult
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Title { get; set; }
         public string OriginalTitle { get; set; }
         public string ScoreAverage { get; set; }

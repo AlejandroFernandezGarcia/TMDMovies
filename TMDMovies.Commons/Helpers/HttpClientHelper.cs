@@ -10,7 +10,7 @@ namespace TMDMovies.Commons.Helpers
 {
     public class HttpClientHelper : IHttpClientHelper
     {
-        public string Get(string url, Dictionary<string, string> queryParams, string tokenJWT)
+        public string Get(string url, string tokenJWT, Dictionary<string, string> queryParams = null)
         {
             HttpClient client = new HttpClient();
 
@@ -20,21 +20,24 @@ namespace TMDMovies.Commons.Helpers
 
             #endregion
 
-            string queryParamsStr = queryParams
+            string queryParamsStr = "";
+            if ((queryParams?.Count ?? 0) > 0)
+                queryParamsStr = "?" + queryParams
                 .Select(kv => kv.Key.ToString() + "=" + HttpUtility.UrlEncode(kv.Value.ToString()))
-                .Aggregate((a,b)=> a + "&" + b);
+                .Aggregate((a, b) => a + "&" + b);
 
             try
             {
-                var response = client.GetAsync($"{url}?{queryParamsStr}").GetAwaiter().GetResult();
+                var response = client.GetAsync($"{url}{queryParamsStr}").GetAwaiter().GetResult();
                 if (!response.IsSuccessStatusCode)
-                    throw new Exception("TMDB error");
+                    throw new Exception($"Error to query external service: {response.StatusCode}");
 
                 return response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-                throw new Exception("TMDB error", e);
+                throw new Exception("Error to query external service", e);
             }
         }
     }

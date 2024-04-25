@@ -8,6 +8,6 @@ namespace TMDMovies.Commons.Helpers
 {
     public interface IHttpClientHelper
     {
-        string Get(string url, Dictionary<string, string> queryParams, string tokenJWT);
+        string Get(string url, string tokenJWT, Dictionary<string, string> queryParams = null);
     }
 }

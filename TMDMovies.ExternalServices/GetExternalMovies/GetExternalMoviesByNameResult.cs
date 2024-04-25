@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMDMovies.ExternalServices.Models;
 
-namespace TMDMovies.Services.GetMovies
+namespace TMDMovies.ExternalServices.GetExternalMovies
 {
-    public class GetMoviesByNameResult
+    public class GetExternalMoviesByNameResult
     {
         public string Title { get; set; }
         public string OriginalTitle { get; set; }

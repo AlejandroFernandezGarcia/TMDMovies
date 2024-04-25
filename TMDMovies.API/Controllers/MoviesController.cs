@@ -4,8 +4,6 @@ using TMDMovies.API.Models;
 using TMDMovies.Commons;
 using TMDMovies.Services.GetMovies;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace TMDMovies.API.Controllers
 {
     [Route("api/[controller]")]
@@ -23,19 +21,11 @@ namespace TMDMovies.API.Controllers
 
         // GET: api/<MoviesController>
         [HttpGet]
-        public IEnumerable<MovieListResponse> Get([FromQuery] GetMoviesRequest request)
-        {
-            
+        public IActionResult Get([FromQuery] GetMoviesRequest request)
+        {            
             var result =_getMoviesByNameService.Execute(_mapper.Map<GetMoviesByNameQuery>(request));
 
-            throw new NotImplementedException();
-        }
-
-        // GET api/<MoviesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            return Ok(_mapper.Map<MovieResponse>(result));
         }
     }
 }

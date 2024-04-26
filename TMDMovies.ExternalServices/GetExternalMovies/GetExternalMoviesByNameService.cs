@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TMDMovies.Commons;
+using TMDMovies.Commons.Exceptions;
 using TMDMovies.Commons.Helpers;
 using TMDMovies.ExternalServices.Models;
 
@@ -44,14 +45,14 @@ namespace TMDMovies.ExternalServices.GetExternalMovies
 
             var parsedObject = JObject.Parse(response);
 
-            if (((int)parsedObject["total_results"]) > 0)
+            if (parsedObject.Value<int>("total_results") > 0)
             {
-                TMDBMovieResponse firstMovie = JsonConvert.DeserializeObject<TMDBMovieResponse>(parsedObject["results"].Take(1).ToString());
+                TMDBMovieResponse firstMovie = JsonConvert.DeserializeObject<TMDBMovieResponse>(parsedObject.Value<JArray>("results").First().ToString());
 
                 return _mapper.Map<GetExternalMoviesByNameResult>(firstMovie);
             }
 
-            return new GetExternalMoviesByNameResult();
+            throw new InstanceNotFoundException();
         }
     }
 }

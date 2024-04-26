@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using TMDMovies.Commons.Exceptions;
 
 namespace TMDMovies.Commons.Helpers
 {
@@ -30,14 +31,14 @@ namespace TMDMovies.Commons.Helpers
             {
                 var response = client.GetAsync($"{url}{queryParamsStr}").GetAwaiter().GetResult();
                 if (!response.IsSuccessStatusCode)
-                    throw new Exception($"Error to query external service: {response.StatusCode}");
+                    throw new ExternalServiceException($"Get method unsuccess result ({response.StatusCode})");
 
                 return response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
             }
             catch (Exception e)
             {
-                throw new Exception("Error to query external service", e);
+                throw new ExternalServiceException("Error to query external service", e);
             }
         }
     }

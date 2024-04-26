@@ -11,7 +11,7 @@ namespace TMDMovies.Services.GetMovies
         public string Title { get; set; }
         public string OriginalTitle { get; set; }
         public string ScoreAverage { get; set; }
-        public DateTime ReleaseDAte { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public string Synopsis { get; set; }
         public List<string> RelatedMovies { get; set; }
     }

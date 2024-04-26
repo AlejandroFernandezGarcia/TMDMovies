@@ -1,4 +1,5 @@
 using System.Reflection;
+using TMDMovies.API;
 using TMDMovies.Commons;
 using TMDMovies.Commons.Helpers;
 using TMDMovies.ExternalServices.GetExternalMovies;
@@ -26,7 +27,11 @@ builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler> ();
+
 var app = builder.Build();
+
+app.UseExceptionHandler(opt => { });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

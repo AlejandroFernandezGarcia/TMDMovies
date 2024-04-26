@@ -20,8 +20,8 @@ namespace TMDMovies.API.Controllers
         }        
 
         // GET: api/<MoviesController>
-        [HttpGet]
-        public IActionResult Get([FromQuery] GetMoviesRequest request)
+        [HttpGet("{Name}")]
+        public IActionResult Get([FromRoute] GetMoviesRequest request)
         {            
             var result =_getMoviesByNameService.Execute(_mapper.Map<GetMoviesByNameQuery>(request));
 

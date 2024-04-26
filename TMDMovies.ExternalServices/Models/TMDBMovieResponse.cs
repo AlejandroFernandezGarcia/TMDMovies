@@ -17,7 +17,7 @@ namespace TMDMovies.ExternalServices.Models
         public float ScoreAverage { get; set; }
 
         [JsonProperty("release_date")]
-        public string ReleaseDAte { get; set; }
+        public string ReleaseDate { get; set; }
 
         [JsonProperty("overview")]
         public string Synopsis { get; set; }

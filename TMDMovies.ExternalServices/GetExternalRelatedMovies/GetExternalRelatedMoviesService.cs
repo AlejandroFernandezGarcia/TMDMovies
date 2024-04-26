@@ -12,6 +12,7 @@ using TMDMovies.Commons;
 using TMDMovies.Commons.Helpers;
 using TMDMovies.ExternalServices.GetExternalMovies;
 using TMDMovies.ExternalServices.Models;
+using TMDMovies.Commons.Exceptions;
 
 namespace TMDMovies.ExternalServices.GetExternalRelatedMovies
 {
@@ -37,18 +38,14 @@ namespace TMDMovies.ExternalServices.GetExternalRelatedMovies
 
             var parsedObject = JObject.Parse(response);
 
-            if (((int)parsedObject["total_results"]) > 0)
+            if (parsedObject.Value<int>("total_results") > 0)
             {
-                List<TMDBMovieResponse> relatedMovies = parsedObject["results"].Take(5).Select(x => JsonConvert.DeserializeObject<TMDBMovieResponse>(x.ToString())).ToList();
+                List<TMDBMovieResponse> relatedMovies = parsedObject.Value<JArray>("results").Take(5).Select(x => JsonConvert.DeserializeObject<TMDBMovieResponse>(x.ToString())).ToList();
 
-                return new GetExternalRelatedMoviesResult(relatedMovies.Select(x => new RelatedMovie()
-                {
-                    Title = x.Title,
-                    ReleaseYear = DateTime.Parse(x.ReleaseDAte).Year
-                }).ToList());
+                return new GetExternalRelatedMoviesResult(relatedMovies);
             }
 
-            return new GetExternalRelatedMoviesResult();
+            throw new InstanceNotFoundException();
         }
     }
 }
